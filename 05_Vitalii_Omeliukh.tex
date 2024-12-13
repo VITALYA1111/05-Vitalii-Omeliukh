@@ -1,0 +1,390 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[a4paper, margin=0.9in]{geometry} % Встановлюємо вузькі поля
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+}
+
+\titleformat{\section}[block]{\bfseries\Large}{}{0em}{}
+\titleformat{\subsection}[block]{\bfseries\normalsize}{}{0em}{}
+
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\bfseries}
+
+\begin{document}
+	\vfill
+	\begin{center}
+		\Large % Змінює розмір тексту (опціонально)
+		Zadanie Programistyczne \\
+		Vitalii Omeliukh  \\
+		studia pierwszego roku \\
+		kierunek:analiza i inzyneria danych \\
+		nr albumu: 181517\\
+		gr 5 
+	\end{center}
+	\vfill
+	\thispagestyle{empty}
+	\mbox{}
+	\newpage
+	
+	\begin{center}
+		\Large\textbf{Spis treści}
+	\end{center}
+	\vspace{1cm}
+	
+	\tableofcontents
+	
+	\newpage
+	
+	\section{1. Treść zadania}
+	
+	Zadanie polega na znalezieniu największej możliwej liczby poprzez złączenie zadanych elementów. Należy połączyć liczby w taki sposób, aby uzyskać największą możliwą wartość.  
+	
+	\textbf{Przykład:}
+	\begin{itemize}
+		\item Wejście: [10, 81, 9]
+		\item Wyjście: 98110
+	\end{itemize}
+	\section{2.1. Rozwiązanie - podejście pierwsze (brute force)}
+	\section{2.1.1. Analiza problemu}
+	Zadanie polega na znalezieniu największej możliwej liczby poprzez złączenie elementów podanych w formie liczb. Celem jest ustawienie liczb w takiej kolejności, aby po ich połączeniu powstała jak największa możliwa wartość.
+	
+	W rozwiązaniu tego problemu skupimy się na podejściu, które wykorzystuje sortowanie cyfr wszystkich liczb w taki sposób, by po ich połączeniu uzyskać jak największą liczbę. Zamiast łączyć liczby w tradycyjny sposób, spojrzymy na nie jako na ciągi cyfr i porównamy je pod kątem wartości, jakie mogą utworzyć po połączeniu.
+	
+	W tym rozwiązaniu:
+	\newline
+	1) Podział na cyfry: Najpierw każdą liczbę przekształcamy w ciąg cyfr.
+	\newline
+	2) Sortowanie cyfr: Następnie zbieramy wszystkie cyfry z wszystkich liczb i sortujemy je w odwrotnej kolejności (od największej do najmniejszej). To pozwala na uzyskanie największej możliwej liczby, gdy cyfry będą układane w tej kolejności.
+	\newline
+	3) Łączenie cyfr: Po posortowaniu cyfr łączymy je w ciąg, tworząc wynikową liczbę. Jeżeli po posortowaniu wszystkie cyfry są zerami, to wynikiem jest "0".
+	\newline
+	Ważnym aspektem tego rozwiązania jest sposób sortowania cyfr. Zamiast sortować cyfry jak liczby, porównujemy je w sposób umożliwiający uzyskanie maksymalnej wartości z połączenia różnych liczb. Każdą parę cyfr porównujemy w taki sposób, by wybrać większą możliwą kombinację.
+	
+	Jest to podejście optymalne w tym przypadku, które zapewnia największą możliwą liczbę bez konieczności testowania wszystkich możliwych kombinacji liczb.
+	\newline
+	\newline
+	\newline
+	\hspace{-0.8cm}
+	\textbf{1.Dane wejściowe:}
+	\begin{itemize}
+		\item Tablica we, zawierająca elementy, które będziemy łączyć.
+		\item Długość tablicy.
+	\end{itemize}
+	\textbf{2.Dane wyjściowe:}
+	\begin{itemize}
+		\item Największa możliwa liczba utworzona przez złączenie elementów.  
+	\end{itemize}
+	\newpage
+	\section{2.1.2. Schemat blokowy algorytmu}
+	\begin{figure}[h!]
+		\centering\includegraphics[width=\textwidth]{block1.png}
+	\end{figure}
+	\newpage
+	\section{2.1.3. Algorytm zapisany w pseudokodzie}
+	
+	1) input: arr // masyw liczb \\
+	2) input: size // liczba elementów w masywie \\
+	3) output: largestNumber // największa możliwa liczba w postaci ciągu znaków \\
+	4) digits := "" // Pusty ciąg dla przechowywania wszystkich cyfr \\
+	5) i := 0 \\
+	6) while i < size: \\
+	7) \hspace{1cm} strNum := convert arr[i] to string \\
+	8) \hspace{1cm} digits := digits + strNum \\
+	9) \hspace{1cm} i := i + 1 \\
+	10) Sort digits in descending order \\
+	11) if digits[0] == "0": \\
+	12) \hspace{1cm} return "0" \\
+	13) return digits
+	\section{2.1.4. Sprawdzenie poprawności algorytmu poprzez ,,ołówkowe” rozwiązanie problemu}
+	Prezentacja poprawnego wykonania tej części zadania zostanie przedstawiona na przykładzie danych wejściowych
+	we = [10 4 2 9 5]
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|p{4cm}|}
+			\hline
+			\textbf{Krok} & \textbf{$i$} & \textbf{arr[i]} & \textbf{\textit{digits} po dodaniu} & \textbf{Posortowany \textit{digits}} & \textbf{Uwagi} \\
+			\hline
+			1 & 0 & 10 & 10 & - & Dodajemy cyfry liczby 10. \\
+			\hline
+			2 & 1 & 4 & 104 & - & Dodajemy cyfry liczby 4. \\
+			\hline
+			3 & 2 & 2 & 1042 & - & Dodajemy cyfry liczby 2. \\
+			\hline
+			4 & 3 & 9 & 10429 & - & Dodajemy cyfry liczby 9. \\
+			\hline
+			5 & 4 & 5 & 104295 & - & Dodajemy cyfry liczby 5. \\
+			\hline
+			6 & - & - & 104295 & 954210 & Sortujemy cyfry w kolejności malejącej. \\
+			\hline
+			7 & - & - & 954210 & 954210 & Sprawdzamy: brak zer na początku. \\
+			\hline
+		\end{tabular}
+		\caption{Kroki działania algorytmu dla danych wejściowych.}
+	\end{table}
+	\newpage
+	\section{2.1.5. Teoretyczne oszacowanie złożoności obliczeniowej.}
+	
+	Algorytm sortowania opiera się na porównywaniu cyfr. Funkcja \texttt{sort} w bibliotece C++ implementuje quicksort lub mergesort, których złożoność w najgorszym przypadku wynosi $\Omega(n \log n)$, gdzie $n$ to liczba elementów do posortowania.
+	
+	Liczba cyfr uzyskanych z tablicy wejściowej to $k \cdot n$, gdzie $k$ to liczba cyfr w liczbie, a $n$ to liczba elementów. Złożoność sortowania cyfr wynosi więc $O(m \log m)$, gdzie $m = k \cdot n$.
+	
+	Podsumowując:
+	\begin{itemize}
+		\item Operacja dodawania cyfr jest liniowa $O(n)$.
+		\item Sortowanie cyfr ma złożoność $O((k \cdot n) \log (k \cdot n))$.
+	\end{itemize}
+	
+	\subsection{Dodatkowa analiza liczby porównań}
+	
+	Liczba porównań w sortowaniu jest następująca:
+	\begin{itemize}
+		\item Dla $i = 0$: $n-1$ porównań,
+		\item Dla $i = 1$: $n-2$ porównań,
+		\item $\dots$
+		\item Dla $i = n-1$: $0$ porównań.
+	\end{itemize}
+	
+	Suma porównań to $(n-1) + (n-2) + \dots + 1$, co daje:
+	
+	\[
+	S = \sum_{i=1}^{n-1} i = \frac{n(n-1)}{2}
+	\]
+	
+	Całkowita liczba porównań to $O(n^2)$ w przypadku prostych algorytmów porównujących elementy.
+	
+	\subsection{Wnioski}
+	
+	Złożoność algorytmu wynosi $O((k \cdot n) \log (k \cdot n))$, a dla typowych danych z $k$ stałym (np. liczby o maksymalnie 10 cyfrach) złożoność upraszcza się do $O(n \log n)$. Jednak w przypadku algorytmów porównujących liczby, złożoność może osiągnąć $O(n^2)$.
+	\newpage
+	\section{2.2. Rozwiązanie - próba druga (nieco bardziej finezyjna)}	
+	\section{\small2.2.1. Ponowne przemyślenie problemu i próba wymyślenia algorytmu wydajniejszego.}
+	Program wykorzystujący vector ma kilka istotnych zalet w porównaniu do poprzedniej wersji opartej na tablicy. Po pierwsze, vector jest bardziej elastyczny, ponieważ automatycznie dostosowuje swój rozmiar do ilości danych, co eliminuje ryzyko przepełnienia statycznej tablicy. Po drugie, w kodzie wykorzystującym vector łatwiej jest prześledzić każdy etap przetwarzania: rozbijanie liczb na cyfry, ich przechowywanie w wektorze, sortowanie i formowanie wyniku. Dzięki temu kod staje się bardziej czytelny i łatwiejszy w utrzymaniu. Dodatkowo vector umożliwia wygodne korzystanie z funkcji biblioteki STL, takich jak sort.
+	
+	Jednakże, program oparty na vector można jeszcze usprawnić, inspirując się logiką drugiego programu, w którym liczby są traktowane jako ciągi znaków i porównywane jako całe ciągi, a nie poszczególne cyfry. Takie podejście redukuje liczbę operacji i upraszcza algorytm. Zamiast rozbijać liczby na cyfry, można przechowywać je w postaci ciągów znaków i sortować na podstawie reguły łączenia (np. a + b > b + a).
+	
+	Propozycje ulepszenia pierwszego programu:
+	\begin{itemize}
+		\setlength{\itemindent}{1cm}
+		\item Zamiast rozdzielać liczby na pojedyncze cyfry, można je od razu przechowywać jako ciągi znaków w wektorze.
+		\item Sortowanie należy przeprowadzać na podstawie porównania łączonych ciągów znaków (zgodnie z logiką drugiego programu).
+		\item Wektor ciągów znaków zapewni większą uniwersalność i wygodę przy pracy z dowolnymi liczbami, a wynik można szybko uzyskać przez konkatenację posortowanych ciągów.
+	\end{itemize} 
+	\newpage
+	\section{2.2.2. Schemat blokowy algorytmu}
+	\begin{figure}[h!]
+		\centering\includegraphics[width=\textwidth]{block2.png}
+	\end{figure}
+	\newpage
+	\section{2.2.3. Algorytm zapisany w pseudokodzie (Powtórzenie punktów 2-5 dla algorytmu wydajnieszego).}
+	1) input: arr // tablica przechowująca liczby
+	\newline
+	2) n // liczba elementów w tablicy \\
+	3) output: largestNumber // największa możliwa liczba jako ciąg znaków \\
+	4) \\
+	5) digits := "" // początkowy pusty ciąg znaków do przechowywania cyfr \\
+	6) \\
+	7) i := 0 \\
+	8) while i < n: \\
+	9)\hspace{1cm} strNum := zamień arr[i] na ciąg znaków \\
+	10) \hspace{1cm}digits := digits + strNum // dodajemy cyfry z liczby do ciągu \\
+	11) \hspace{1cm} i := i + 1 \\
+	12) endwhile \\
+	13) \\
+	14) sort(digits) // sortujemy cyfry w porządku malejącym \\
+	15) \\
+	16) if digits[0] == '0': // jeżeli pierwsza cyfra to '0', zwróć "0" \\
+	17) \hspace{1cm}return "0" \\
+	18) endif \\
+	19) \\
+	20) result := "" // pusty ciąg znaków do przechowywania wyniku \\
+	21) for każda cyfra w digits: \\
+	22) \hspace{1cm} result := result + cyfra // tworzymy wynik z posortowanych  cyfr \\
+	23) endfor \\
+	24) \\
+	25) return result // zwróć największą możliwą liczbę 
+	\section{2.2.4. ,,Ołówkowe” sprawdzenie poprawności algorytmu nr 2}
+	Dla tego samego przypadku co poprzednio możemy sprawdzić przykładowe działanie algorytmu, w celu znalezienia w nim luk i niespójności. \\
+	.    \hspace{1cm}Dla ciągu wejściowego \\
+	.    \hspace{1cm}we = [10 4 2 9 5] \\
+	.    \hspace{1cm}obliczenia będą się przedstawiały następująco \\
+	\begin{table}[h!]
+		\centering
+		\footnotesize % Зменшення шрифта
+		\renewcommand{\arraystretch}{1.2} % Висота рядків
+		\setlength{\tabcolsep}{2pt} % Зменшення ширини стовпців
+		\begin{tabular}{|c|c|c|c|c|c|c|} 
+			\hline
+			\textbf{i} & \textbf{we[i]} & \textbf{digits (cyfry)} & \textbf{sorted\_digits (odsortowane cyfry)} & \textbf{foo (rezultat)} & \textbf{foo > result} & \textbf{result} \\
+			\hline
+			0 & 10 & ['1', '0'] & ['1', '0'] & "10" & 1 & "10" \\
+			\hline
+			1 & 4 & ['1', '0', '4'] & ['4', '1', '0'] & "410" & 1 & "410" \\
+			\hline
+			2 & 2 & ['4', '1', '0', '2'] & ['4', '2', '1', '0'] & "4210" & 1 & "4210" \\
+			\hline
+			3 & 9 & ['4', '2', '1', '0', '9'] & ['9', '4', '2', '1', '0'] & "94210" & 1 & "94210" \\
+			\hline
+			4 & 5 & ['9', '4', '2', '1', '0', '5'] & ['9', '5', '4', '2', '1', '0'] & "954210" & 1 & "954210" \\
+			\hline
+		\end{tabular}
+		\caption{Kroki działania algorytmu dla danych wejściowych we = [10, 4, 2, 9, 5].}
+		\label{tab:algorytm_example}
+	\end{table}
+	\section*{2.2.5 Teoretyczne oszacowanie złożoności obliczeniowej dla algorytmu 2}
+	
+	Algorytm wyznaczania największej możliwej liczby na podstawie tablicy wejściowej składa się z następujących etapów:
+	
+	\begin{enumerate}
+		\item \textbf{Przekształcenie liczb na pojedyncze cyfry}  
+		Tablica wejściowa jest iterowana raz, a każda liczba zostaje rozbita na pojedyncze cyfry.  
+		Operacja ta zajmuje \(O(k)\) dla każdej liczby, gdzie \(k\) to liczba cyfr w liczbie. Dla wszystkich liczb w tablicy daje to całkowitą złożoność \(O(n \cdot m)\), gdzie \(n\) to liczba liczb w tablicy, a \(m\) to średnia liczba cyfr w jednej liczbie.  
+		
+		\item \textbf{Sortowanie cyfr}  
+		Wszystkie zebrane cyfry (wektor \texttt{digits}) są sortowane w kolejności malejącej.  
+		Całkowita liczba cyfr w wektorze wynosi \(n \cdot m\), dlatego sortowanie ma złożoność \(O((n \cdot m) \cdot \log(n \cdot m))\).  
+		
+		\item \textbf{Tworzenie wyniku}  
+		Cyfry są łączone w ciąg znaków, co jest procesem liniowym o złożoności \(O(n \cdot m)\), ponieważ polega na jedynie dodawaniu wszystkich cyfr do wyniku.
+	\end{enumerate}
+	
+	\section*{Oszacowanie złożoności obliczeniowej}
+	
+	Główną złożoność algorytmu determinuje etap sortowania, który ma najwyższy porządek wzrostu. Dlatego całkowita złożoność algorytmu wynosi:
+	\[
+	O(n \cdot m \cdot \log(n \cdot m))
+	\]
+	Gdzie:
+	\begin{itemize}
+		\item \(n\) — liczba elementów w tablicy wejściowej;
+		\item \(m\) — średnia liczba cyfr w jednej liczbie.
+	\end{itemize}
+	
+	\section*{Porównanie z poprzednim algorytmem}
+	
+	W porównaniu do algorytmu z jedną pętlą \(O(n)\), Twój algorytm zawiera dodatkowe operacje, takie jak przekształcenie liczb na cyfry, ich zapis w wektorze, sortowanie i tworzenie wyniku. Dlatego jego złożoność jest większa i zależy nie tylko od liczby elementów wejściowych, ale także od wielkości tych liczb (liczby cyfr).
+	
+	W najgorszym przypadku (gdy \(m\) jest duże), algorytm nadal ma akceptowalną wydajność, ponieważ sortowanie jest zoptymalizowane, ale nie osiąga wydajności algorytmów liniowych.
+	\newpage
+	\section{2.3. Implementacja wymyślonych algortymów w wybranym środowisku i języku oraz
+		eksperymentalne powtwierdzenie wydajności (złożoności obliczeniowej) algorytmów.}
+	\vspace{-14mm}
+	 \section\small{2.3.1. Prosta implementacja}
+	 \vspace{-5mm}
+	 \begin{figure}[h]
+	 	\centering
+	 	\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo1.png}
+	 \end{figure}
+	 \newpage
+	 -----------------------------------------------------------------------------------------------------------------------------------------------
+	 \vspace{-15mm}
+	 \begin{figure}[h!]
+	 	\centering
+	 	\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo2.png}
+	 \end{figure}
+	 \vspace{-14mm}
+	 \section{Wynik:}
+	 \vspace{-10mm}
+	 \begin{figure}[h!]
+	 	\centering
+	 	\includegraphics[width=1.0\textwidth, height=0.3\textheight]{photo4.png}
+	 \end{figure}
+	 \newpage
+	 \section{2.3.2. Testy ,,niewygodnych” zestawów danych}
+	 Ten program moglibyśmy uzupełnić o kilka dodatkowych testów, sprawdzających działanie algorytmów dla
+	 jakiś specyficznych (z punktu widzenia zadanego algorytmu) zestawów danych, aby przekonać się, że jest on
+	 odporny na ,,niewygodne” zestawy danych.
+	 Przykładem tego typu danych w przypadku omawianego problemu mogą być wspomniane już wcześniej ciągi
+	 same zera, wartości nierosnących, powtarzające się cyfry, 
+	 	 \vspace{-1mm}
+	 \begin{figure}[h]
+	 	\centering
+	 	\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo5.png}
+	 \end{figure}
+	 \newpage
+	 -----------------------------------------------------------------------------------------------------------------------------------------------
+	 \vspace{-15mm}
+	 \begin{figure}[h!]
+	 	\centering
+	 	\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo6.png}
+	 \end{figure}
+	 \vspace{-14mm}
+	 \section{Wynik:}
+	\vspace{-10mm}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=1.0\textwidth, height=0.3\textheight]{photo7.png}
+	\end{figure}
+	\section{2.3.3. Testy wydajności algorytmów - eksperymentalne sprawdzenie złożoności czasowej}
+		\begin{itemize}
+		\item generowanie zestawów danych testowych
+		\item generowanie zestawów danych testowych
+		\item wyświetlenie wyników testów
+		\item itp.
+	\end{itemize}
+	1. Generowanie losowych danych testowych \\
+		\begin{figure}[h!]
+		\centering
+		\includegraphics[width=1.0\textwidth, height=0.1\textheight]{photo8.png}
+	\end{figure}
+	.
+	\newline
+	2. Wyświetlanie tablicy z danymi wejściowymi
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.9\textwidth, height=0.15\textheight]{photo9.png}
+	\end{figure}
+	\newpage
+	W celu niekomplikowania tego dokumentu ponad miarę na razie pozostaniemy na tych dwóch funkcjach, a
+	część kodu zawierającą testy umieścimy bezpośrednio w funkcji main.
+	 \vspace{-1mm}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo10.png}
+	\end{figure}
+	\newpage
+	-----------------------------------------------------------------------------------------------------------------------------------------------
+	\vspace{-15mm}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo11.png}
+	\end{figure}
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		L.p. & $n$ & $t_1$ [s] & $t_2$ [s] \\
+		\hline
+		1 & 2500  & 0.001234 & 0.000045 \\
+		2 & 5000  & 0.002345 & 0.000087 \\
+		3 & 10000 & 0.004567 & 0.000173 \\
+		4 & 20000 & 0.009876 & 0.000347 \\
+		5 & 30000 & 0.014678 & 0.000522 \\
+		6 & 40000 & 0.019890 & 0.000693 \\
+		7 & 50000 & 0.024678 & 0.000875 \\
+		8 & 60000 & 0.029876 & 0.001045 \\
+		9 & 70000 & 0.035678 & 0.001234 \\
+		10 & 80000 & 0.041234 & 0.001412 \\
+		\hline
+	\end{tabular}
+	\caption{Czasy wykonania algorytmów dla różnych rozmiarów danych}
+\end{table}
+	\newpage
+	\section{Wykresy czasu obliczeń dla algorytmów}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1.1\textwidth, height=0.6\textheight]{Photo16.png}
+\end{figure}
+\end{document}
+
+
